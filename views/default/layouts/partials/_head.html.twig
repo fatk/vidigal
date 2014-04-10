@@ -1,8 +1,9 @@
     <meta charset="{{ bloginfo('charset') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="{{ bloginfo('description') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{wp_title}}</title>
+    <meta name="description" content="{{ (post.seo_description ?: frontpage.seo_description) ?: site.description  }}">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>{{ post.seo_title ?: site.title }}</title>
 {% include 'default/layouts/partials/head/_facebook.html.twig' %}
 {% include 'default/layouts/partials/head/_twitter.html.twig' %}
-{{ function('wp_head') }}
+{% include 'default/layouts/partials/head/_favicon.html.twig' %}
+{% filter replace({'<': '    <'})|replace({'    </':'</'}) %}{{ wp_head() }}{% endfilter %}

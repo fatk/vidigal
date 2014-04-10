@@ -1,7 +1,15 @@
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@site_account">
-    <meta name="twitter:creator" content="@individual_account">
-    <meta name="twitter:url" content="http://www.example.com/path/to/page.html">
-    <meta name="twitter:title" content="">
-    <meta name="twitter:description" content="">
-    <meta name="twitter:image" content="http://www.example.com/path/to/image.jpg">
+{% if frontpage.twitter_site_account %}
+    <meta name="twitter:site" content="{{ frontpage.twitter_site_account }}">
+{% endif %}
+{% if frontpage.twitter_creator_account %}
+    <meta name="twitter:creator" content="{{ frontpage.twitter_creator_account }}">
+{% endif %}
+    <meta name="twitter:url" content="{{ post.link }}">
+    <meta name="twitter:title" content="{{ (post.twitter_title|e ?: frontpage.twitter_title|e) ?: post.title|e }}">
+    <meta name="twitter:description" content="{{ (post.twitter_description|e ?: frontpage.twitter_description|e) ?: site.description|e }}">
+{% if post.twitter_image %}
+    <meta name="twitter:image" content="{{ TimberImage(post.twitter_image).get_src('social-share') }}">
+{% elseif frontpage.twitter_image %}
+    <meta name="twitter:image" content="{{ TimberImage(frontpage.twitter_image).get_src('social-share') }}">
+{% endif %}

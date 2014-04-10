@@ -1,3 +1,26 @@
-    <meta property="og:title" content="">
-    <meta property="og:description" content="">
-    <meta property="og:image" content="">
+    <meta property="og:title" content="{{ (post.facebook_title|e ?: frontpage.facebook_title|e) ?: post.title|e }}">
+    <meta property="og:site_name" content="{{ site.name|e }}">
+    <meta property="og:description" content="{{ (post.facebook_description|e ?: frontpage.facebook_description|e) ?: site.description }}">
+    <meta property="og:url" content="{{ post.link }}">
+    <meta property="og:locale" content="{{ site.language|replace({'-':'_'}) }}">
+{% if frontpage.facebook_admins %}
+    <meta property="fb:admins" content="{{ frontpage.facebook_admins }}">
+{% endif %}
+{% if frontpage.facebook_app_id %}
+    <meta property="fb:app_id" content="{{ frontpage.facebook_app_id }}">
+{% endif %}
+{% set fb_imgs, fb_img_out = [post.facebook_image_1, post.facebook_image_2, post.facebook_image_3], 0 %}
+{% for fb_img in fb_imgs %}
+{% if fb_img %}
+    <meta property="og:image" content="{{ TimberImage(fb_img).get_src('social-share') }}">
+{% set fb_img_out = fb_img_out + 1 %}
+{% endif %}
+{% endfor %}
+{% if fb_img_out == 0 %}
+{% set fb_imgs = [frontpage.facebook_image_1, frontpage.facebook_image_2, frontpage.facebook_image_3] %}
+{% for fb_img in fb_imgs %}
+{% if fb_img %}
+    <meta property="og:image" content="{{ TimberImage(fb_img).get_src('social-share') }}">
+{% endif %}
+{% endfor %}
+{% endif %}
