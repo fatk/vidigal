@@ -1,5 +1,5 @@
-vidigal
-=======
+#vidigal [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 
 A [Timber-powered](https://github.com/jarednova/timber) [Wordpress](http://wordpress.org) theme skeleton built around an opinionated [grunt toolchain](http://gruntjs.com).
 
