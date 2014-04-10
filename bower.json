@@ -5,7 +5,7 @@
   "authors": [
     "fatk <karl.fathi@gmail.com>"
   ],
-  "description": "Yeopress compatible theme that features Twig support along with grunt toolchain.",
+  "description": "A Timber-powered Wordpress theme skeleton built around an opinionated grunt toolchain.",
   "license": "MIT",
   "private": true,
   "ignore": [
