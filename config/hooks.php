@@ -2,9 +2,6 @@
 
 // This function include screen.css in wp_head() function
 function register_styles() {
-    wp_register_style("joyride-fonts", 'http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic', false, false);
-    wp_enqueue_style("joyride-fonts");
-
     wp_register_style("screen", _URIPATH_ASSETS_STYLES_.'/css/screen.css', false, false);
     wp_enqueue_style("screen");
 }
@@ -15,17 +12,9 @@ add_action('wp_enqueue_scripts', 'register_styles');
 function register_scripts() {
     wp_register_script("application", _URIPATH_ASSETS_SCRIPTS_.'/main.js', array(), false, true);
     wp_enqueue_script("application");
-    wp_register_script("modernizr", '//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js' , array(), true, false);
-    wp_enqueue_script("modernizr");
-}
-
-function deregister_scripts() {
-    wp_deregister_script('jquery');
-    wp_register_script("jquery", '', array());
 }
 
 add_action('wp_enqueue_scripts', 'register_scripts');
-add_action('wp_enqueue_scripts', 'deregister_scripts');
 
 function register_devscripts() {
     $baseUrl = _URIPATH_ASSETS_SCRIPTS_;
