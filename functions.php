@@ -36,8 +36,7 @@ function _render($tpl, $vars = array()) {
       return;
     }
 
-    $context = Timber::get_context();
-    array_merge($context, $vars);
+    $context = array_merge(Timber::get_context(), $vars);
 
     return Timber::render($tpl, $context);
 }
@@ -45,15 +44,15 @@ function _render($tpl, $vars = array()) {
 function add_to_context($data){
     global $post;
 
-    // Retrieve frontpage
-    $frontpage = get_option('page_on_front');
-    if (is_numeric($frontpage) && (int)$frontpage > 0) {
-        $data['frontpage'] = new TimberPost($frontpage);
-    }
+    // Gets site-wide Options (ACF)
+    //$data['options'] = get_fields('options');
+
+    // Share $_GET and $_POST with twig.
+    //$data['request'] = array('get' => $_GET, 'post' => $_POST);
 
     // Add current post to context
     if (is_object($post)) {
-        $data['post'] = $post->ID == $frontpage ? $data['frontpage'] : new TimberPost();
+        $data['post'] = new TimberPost();
     }
 
     // Retrieve menus

@@ -1,6 +1,6 @@
 {
   "name": "vidigal",
-  "version": "0.8",
+  "version": "0.9",
   "homepage": "https://github.com/fatk/vidigal",
   "authors": [
     "fatk <karl.fathi@gmail.com>"
@@ -17,8 +17,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~1.10.2",
-    "requirejs": "~2.1.10"
+    "jquery": ">=2.1.1",
+    "requirejs": ">=2.1.14"
   },
   "devDependencies": {
   }

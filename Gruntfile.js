@@ -60,21 +60,28 @@ module.exports = function (grunt) {
                 }]
             },
             dist: {
-                files: [{
-                    dot: true,
-                    src: [
-                        basePathsConfig.tmp,
-                        '<%= basePaths.dist %>/*',
-                        '!<%= basePaths.dist %>/.git*',
-                        '<%= paths.dev.icons %>/png/*'
-                    ]
-                }]
+                files: [
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: pathsConfig.tmp.styles.css,
+                        dest: pathsConfig.dist.styles.css,
+                        src: ['{,*/}*.css']
+                    },
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: pathsConfig.dev.fonts,
+                        dest: pathsConfig.dist.fonts,
+                        src: ['{,*/}*.{ttf,eot,woff,svg}']
+                    }
+                ]
             }
         },
 
         watch: {
             styles: {
-                files: ['<%= paths.dev.styles.sass %>/{,*/}*.{sass,scss}'],
+                files: ['<%= paths.dev.styles.sass %>/**/*.{sass,scss}'],
                 tasks: ['styles:dev']
             },
             scripts: {
@@ -129,31 +136,40 @@ module.exports = function (grunt) {
         jshint: {
             options: {
                 jshintrc: '.jshintrc',
-                reporter: require('jshint-stylish')
+                reporter: require('jshint-stylish'),
+                ignores: ['<%= paths.dev.scripts %>/vendor/*']
             },
             all: ['Gruntfile.js', '<%= paths.dev.scripts %>/{,*/}*.js']
         },
 
-        compass: {
+        sass: {
             options: {
-                sassDir: pathsConfig.dev.styles.sass,
-                cssDir: '<%= paths.tmp.styles.css %>',
-                outputStyle: 'expanded',
-                imagesDir: '<%= paths.dev.images %>',
-                fontsDir: '<%= paths.dev.fonts %>',
-                generatedImagesDir: '<%= paths.dev.images %>',
-                relativeAssets: true,
-                cacheDir: '<%= basePaths.tmp %>/.sass-cache'
+                loadPath: pathsConfig.dev.styles.sass,
+                cacheLocation: '<%= basePaths.tmp %>/.sass-cache',
+                style: 'expanded'
             },
-            dev: { },
-            dist: {
+            dev: {
                 options: {
-                    imagesDir: '<%= paths.dist.images %>',
-                    fontsDir: '<%= paths.dist.fonts %>',
-                    generatedImagesDir: '<%= paths.dist.images %>',
-                    environment: 'production'
-                }
-            }
+                    lineNumbers: true,
+                    sourcemap: 'none'
+                },
+                files: [{
+                    expand: true,
+                    cwd: pathsConfig.dev.styles.sass,
+                    src: ['{,*/}*.{scss,sass}'],
+                    dest: '<%= paths.dev.styles.css %>',
+                    ext: '.css'
+                }]
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: pathsConfig.dev.styles.sass,
+                    src: ['{,*/}*.{scss,sass}'],
+                    dest: '<%= paths.tmp.styles.css %>',
+                    ext: '.css'
+                }]
+            },
         },
 
         autoprefixer: {
@@ -264,7 +280,7 @@ module.exports = function (grunt) {
         bower: {
             all: {
                 options: {
-                    exclude: ['jquery']
+                    exclude: ['jquery', 'picturefill', 'isotope']
                 },
                 rjsConfig: '<%= paths.dev.scripts %>/main.js'
             }
@@ -288,7 +304,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('styles:dev',
         [
-            'compass:dev',
+            'sass:dev',
             'copy:dev',
             'autoprefixer:dev'
         ]
@@ -296,7 +312,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('styles:dist',
         [
-            'compass:dist',
+            'sass:dist',
             'copy:dist',
             'autoprefixer:dist',
             'cmq:dist',
